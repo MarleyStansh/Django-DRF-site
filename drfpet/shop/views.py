@@ -9,16 +9,17 @@ from .models import Hardware
 
 class HardwareAPIView(APIView):
     def get(self, request):
-        lst = Hardware.objects.all().values()
-        return Response({'posts': lst})
+        objects = Hardware.objects.all()
+        return Response({'posts': HardwareSerializer(objects, many=True).data})
     
     def post(self, request):
-        post_new = Hardware.objects.create(
-            title=request.data['title'],
+        serializer = HardwareSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        item_new = Hardware.objects.create(
+            title = request.data['title'],
             cat_id = request.data['cat_id'],
         )
-        post_new.save()
-        return Response({'post': 123})
+        return Response({'post': HardwareSerializer(item_new).data})
 
 # class HardwareAPIView(generics.ListAPIView):
 #     queryset = Hardware.objects.all()
