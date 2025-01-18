@@ -15,11 +15,38 @@ class HardwareAPIView(APIView):
     def post(self, request):
         serializer = HardwareSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        item_new = Hardware.objects.create(
-            title = request.data['title'],
-            cat_id = request.data['cat_id'],
-        )
-        return Response({'post': HardwareSerializer(item_new).data})
+        serializer.save()
+        return Response({'post': serializer.data})
+    
+    def put(self, request, *args, **kwargs):
+        pk = kwargs.get('pk', None)
+        if not pk:
+            return Response({'error': 'Method PUT is not allowed.'})
+        try:
+            instance = Hardware.objects.get(pk=pk)
+        except:
+            return Response({'error': 'Object does not exist.'})
+        
+        serializer = HardwareSerializer(data=request.data, instance=instance)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        
+    def delete(self, request, *args, **kwargs):
+        pk = kwargs.get("pk", None)
+        if not pk:
+            return Response({"ERROR": "Delete Method Is Not Allowed"})
+        
+        # deleting an object from api
+
+        try:
+            instance = Hardware.objects.get(pk=pk)
+            instance.delete()
+        except:
+            return Response({"ERROR": "Object not Found."})
+
+        return Response({"post": f"Object {str(pk)} is deleted"})
+        
+        
 
 # class HardwareAPIView(generics.ListAPIView):
 #     queryset = Hardware.objects.all()

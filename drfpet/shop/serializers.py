@@ -20,6 +20,21 @@ class HardwareSerializer(serializers.Serializer):
     num_in_stock = serializers.IntegerField(default=0)
     params = serializers.CharField(default="")
 
+    def create(self, validated_data):
+        return Hardware.objects.create(**validated_data)
+    
+    def update(self, instance, validated_data):
+        instance.title = validated_data.get('title', instance.title)
+        instance.description = validated_data.get('description', instance.description)
+        instance.price = validated_data.get('price', instance.price)
+        instance.time_update = validated_data.get('time_update', instance.time_update)
+        instance.cat_id = validated_data.get('cat_id', instance.cat_id)
+        instance.num_in_stock = validated_data.get('num_in_stock', instance.num_in_stock)
+        instance.params = validated_data.get('params', instance.params)
+        instance.save()
+        return instance
+
+
 # def encode():
 #     model = HardwareModel("Processor", "Powerful processor")
 #     model_sr = HardwareSerializer(model)

@@ -21,4 +21,5 @@ from shop.views import HardwareAPIView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/shop_list/', HardwareAPIView.as_view()),
+    path('api/v1/shop_list/<int:pk>/', HardwareAPIView.as_view()),
 ]
