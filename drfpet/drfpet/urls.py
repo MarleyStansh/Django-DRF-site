@@ -16,10 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from shop.views import HardwareAPIView
+from shop.views import HardwareAPIList, HardwareAPIUpdate, HardwareAPIDetailView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/shop_list/', HardwareAPIView.as_view()),
-    path('api/v1/shop_list/<int:pk>/', HardwareAPIView.as_view()),
+    path('api/v1/shop_list/', HardwareAPIList.as_view()),
+    path('api/v1/shop_list/<int:pk>/', HardwareAPIUpdate.as_view()),
+    path('api/v1/shop_detail/<int:pk>/', HardwareAPIDetailView.as_view()),
 ]
