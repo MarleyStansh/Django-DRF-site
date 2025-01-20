@@ -21,7 +21,7 @@ from rest_framework import routers
 
 
 router = routers.SimpleRouter()
-router.register(r'shop', HardwareViewSet)
+router.register(r'shop', HardwareViewSet, basename='shop')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

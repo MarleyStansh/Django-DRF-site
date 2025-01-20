@@ -3,11 +3,21 @@ from django.shortcuts import render
 from rest_framework import generics, viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.decorators import action
 from .serializers import HardwareSerializer
-from .models import Hardware
+from .models import Hardware, Category
 
 
 class HardwareViewSet(viewsets.ModelViewSet):
-    queryset = Hardware.objects.all()
     serializer_class = HardwareSerializer
 
+    def get_queryset(self):
+        pk = self.kwargs.get('pk')
+        if not pk:
+            return Hardware.objects.all()
+        return Hardware.objects.filter(pk=pk)
+
+    @action(methods=['get'], detail=True)
+    def category(self, request, pk=None):
+        cats = Category.objects.get(pk=pk)
+        return Response({'cats': [cats.name]})
