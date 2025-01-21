@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from .serializers import HardwareSerializer
 from .models import Hardware, Category
+from .permissions import IsAdminOrReadOnly
 
 
 class HardwareViewSet(viewsets.ModelViewSet):
@@ -16,6 +17,8 @@ class HardwareViewSet(viewsets.ModelViewSet):
         if not pk:
             return Hardware.objects.all()
         return Hardware.objects.filter(pk=pk)
+
+    permission_classes = (IsAdminOrReadOnly, )
 
     @action(methods=['get'], detail=True)
     def category(self, request, pk=None):
