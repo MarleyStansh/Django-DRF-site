@@ -26,6 +26,7 @@ router.register(r'shop', HardwareViewSet, basename='shop')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include(router.urls)),
+    path('api/v1/drfauth/', include('rest_framework.urls')),
     # path('api/v1/shop_list/', HardwareViewSet.as_view({'get': 'list'})),
     # path('api/v1/shop_list/<int:pk>/', HardwareViewSet.as_view({'put': 'update'})),
 ]
